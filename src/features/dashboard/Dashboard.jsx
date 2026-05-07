@@ -1,10 +1,12 @@
 import React from 'react'
+import MarketStatus from './MarketStatus'
+
 
 function Dashboard() {
   return (
-    <div>
-      
-    </div>
+    <section>
+      <MarketStatus />
+    </section>
   )
 }
 
