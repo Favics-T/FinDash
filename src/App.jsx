@@ -1,32 +1,19 @@
 import React from 'react'
-import { Outlet, Route, Router } from 'react-router-dom'
+import { BrowserRouter, Outlet, Route, Routes } from 'react-router-dom'
 import Sidebar from './components/layout/Sidebar'
 import NavBar from './components/layout/NavBar'
-
-
-const Layout =()=>{
-  return(
-    <div className='flex'>
-      <Sidebar />
-      <div>
-        <NavBar />
-        <Outlet />
-      </div>
-    </div>
-  )
-}
+import AppLayout from './components/layout/AppLayout'
 
 export default function App() {
   return (
     <div>
-      <Routes>
-        <Router>
-          <Route element={<Layout />}>
-          
+     <BrowserRouter>
+     <Routes>
+      <Route path='/' element={<AppLayout />}>
 
-          </Route>
-        </Router>
-      </Routes>
+      </Route>
+     </Routes>
+     </BrowserRouter>
     </div>
   )
 }

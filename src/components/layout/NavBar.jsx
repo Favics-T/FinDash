@@ -2,7 +2,7 @@ import React from 'react'
 
 function NavBar() {
   return (
-    <div>
+    <div className='bg-[#3B494B] h-10'>
       
     </div>
   )
