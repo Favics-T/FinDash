@@ -1,7 +1,5 @@
 import React from 'react'
 import { BrowserRouter, Outlet, Route, Routes } from 'react-router-dom'
-import Sidebar from './components/layout/Sidebar'
-import NavBar from './components/layout/NavBar'
 import AppLayout from './components/layout/AppLayout'
 import Watchlist from './features/watchlist/Watchlist'
 import CoinDetail from './features/coin/CoinDetail'
