@@ -1,73 +1,55 @@
-import axios from "axios";
-const BASE_URL = "https://api.coingecko.com/api/v3";
-// just learnt about this, I will be keeping this here for futue ref
-const API = axios.create({
-  baseURL:"https://api.coingecko.com/api/v3",
-})
+import axios from 'axios';
 
-export const getMarketData = async()=>{
-  const response = await API.get(
-    "/coins/markets",
-    {
-      params:{
-        vs_currency:"uds",
-        order:"market_cap_desc",
-        per_page:20,
-        page:1,
-        sparkline:true
-      }
-    }
-  )
-  return response.data
-}
+const BASE_URL = 'https://api.coingecko.com/api/v3';
 
-// export const searchCoins=(query)=>{
-//     axios.get(`${BASE_URL}/search`,{
-//         params:{q:query}
-//     })
-// }
+const cryptoAPI = axios.create({
+  baseURL: BASE_URL,
+});
 
 
-// export const fetchCryptoMarketChart = (coinId = 'bitcoin',vsCurrency = 'usd', days= 7) => {
-//   return axios.get(`https://api.coingecko.com/api/v3/coins/${coinId}/market_chart`, {
-//     params: {
-//       vs_currency: vsCurrency,
-//       days,
-//     },
-//   });
-// };
 
-// export const searchCoins=(query)=>{
-//     axios.get(`${BASE_URL}/search`,{
-//         params:query
-//     })
-// }
-
-
-//detailed market for specific coin
-  export const fetchMarketData = (coinIds = ['bitcoin', 'ethereum', 'solana'], vsCurrency = 'usd')=>{
-    return axios.get(`${BASE_URL}/coins/markets`,{
-      params:{
-      vs_currency: vsCurrency,
-      ids: coinIds.join(','),
+export const getCoinsMarkets = async (params = {}) => {
+  const response = await cryptoAPI.get('/coins/markets', {
+    params: {
+      vs_currency: 'usd',
       order: 'market_cap_desc',
-      per_page: coinIds.length,
+      per_page: 100,
       page: 1,
-      sparkline: false
-      }
-    })
-  }
+      sparkline: true,
+      price_change_percentage: '24h',
+      ...params,
+    },
+  });
+  return response.data;
+};
 
-  //top performing crypto
-//  export const fetchTopCryptos = async () => {
-//   const response = await axios.get('https://api.coingecko.com/api/v3/coins/markets', {
-//     params: {
-//       vs_currency: 'usd',
-//       order: 'percent_change_24h_desc', //this indicates it is  sorted by 24h gain
-//       per_page: 32, //number of coins i am fetching at the moment
-//       page: 1,
-//       price_change_percentage: '24h'
-//     }
-//   });
-//   return response.data;
-// };
+export const getCoinDetail = async (id) => {
+  const response = await cryptoAPI.get(`/coins/${id}`, {
+    params: {
+      localization: false,
+      tickers: false,
+      market_data: true,
+      community_data: false,
+      developer_data: false,
+      sparkline: true,
+    },
+  });
+  return response.data;
+};
+
+export const getCoinMarketChart = async (id, days = 7) => {
+  const response = await cryptoAPI.get(`/coins/${id}/market_chart`, {
+    params: {
+      vs_currency: 'usd',
+      days: days,
+    },
+  });
+  return response.data;
+};
+
+export const getGlobalData = async () => {
+  const response = await cryptoAPI.get('/global');
+  return response.data;
+};
+
+export default cryptoAPI;

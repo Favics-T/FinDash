@@ -1,23 +1,17 @@
-import React from 'react'
-import Search from './Search'
-import RightNav from './Rightnav'
+import React from 'react';
+import Search from './Search';
+import RightNav from './RightNav';
 
-function NavBar() {
+const Navbar = () => {
   return (
-    <nav className='bg-sidebar-bg flex justify-between   p-5'>
-      {/* left */}
-      <div className='flex gap-4 items-center '>
-        <h1>Crypto Analytics</h1>
+    <header className="sticky top-0 z-40 flex h-16 items-center justify-between border-b border-[rgba(42,42,56,0.6)] bg-[rgba(9,9,11,0.85)] px-6 backdrop-blur-[20px]">
+      <div className="flex items-center gap-6">
         <Search />
       </div>
 
-      {/* right */}
-      <div>
-        <RightNav />
-      </div>
-      
-    </nav>
-  )
-}
+      <RightNav />
+    </header>
+  );
+};
 
-export default NavBar
+export default Navbar;
