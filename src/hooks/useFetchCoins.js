@@ -9,6 +9,7 @@ export const useFetchCoins = () => {
   const fetchData = useCallback(async () => {
     setLoading(true);
     setError(null);
+
     try {
       const [markets, global] = await Promise.all([
         getCoinsMarkets(),

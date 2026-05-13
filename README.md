@@ -29,59 +29,22 @@ Global crypto market overview
 
 
 Market sentiment indicator
-
-
 Fear & Greed index
-
-
 Top gainers and losers
-
-
 Interactive price charts
-
-
 Market intelligence feed
-
-
-
  Markets Page
-
-
 Real-time cryptocurrency market table
-
-
 Search and filtering
-
-
 Sort by:
-
-
 Market cap
-
-
 Volume
-
-
 24h change
-
-
 Trending assets
-
-
-
-
  Coin Detail Analytics
-
-
 Interactive historical charts
-
-
 7D / 30D / 1Y chart ranges
-
-
 Coin statistics:
-
-
 Market cap
 
 

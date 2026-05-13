@@ -9,7 +9,8 @@ const cryptoAPI = axios.create({
 
 
 export const getCoinsMarkets = async (params = {}) => {
-  const response = await cryptoAPI.get('/coins/markets', {
+  const response = await cryptoAPI.get('/coins/markets', 
+    {
     params: {
       vs_currency: 'usd',
       order: 'market_cap_desc',
