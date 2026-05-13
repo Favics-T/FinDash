@@ -1,6 +1,7 @@
 import React from 'react';
 import Search from './Search';
-import RightNav from './RightNav';
+import RightNav from './RightNav.jsx'
+
 
 const Navbar = () => {
   return (
