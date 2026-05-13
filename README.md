@@ -1,4 +1,4 @@
-CryptoLens — Crypto Market Intelligence Dashboard
+Findash — Crypto Market Intelligence Dashboard
  Overview
 Findash is a modern crypto analytics and market intelligence dashboard built for investors, analysts, and fintech users who want to monitor cryptocurrency markets and make informed decisions through clear data visualization and actionable insights.
 Unlike traditional trading apps, CryptoLens focuses on:
