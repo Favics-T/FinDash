@@ -30,7 +30,7 @@ const Stat = ({ label, value, sub, subUp }) => (
     </p>
     {sub !== undefined && (
       <p
-        className={`text-[10px] font-mono-data mt-[2px] ${
+        className={`text-[10px] font-mono-data mt-0.5 ${
           subUp ? 'text-secondary' : 'text-error'
         }`}
       >
@@ -41,7 +41,7 @@ const Stat = ({ label, value, sub, subUp }) => (
 );
 
 const AlphaItem = ({ tag, tagColor, time, text }) => (
-  <div className="py-[10px] border-b border-outline-variant/20">
+  <div className="py-2.5 border-b border-outline-variant/20">
     <div className="flex justify-between mb-[4px]">
       <span
         className="text-label-caps"
@@ -53,7 +53,7 @@ const AlphaItem = ({ tag, tagColor, time, text }) => (
         {time}
       </span>
     </div>
-    <p className="text-body-md text-on-surface leading-[1.5]">
+    <p className="text-body-md text-on-surface leading-normal">
       {text}
     </p>
   </div>
@@ -62,7 +62,7 @@ const AlphaItem = ({ tag, tagColor, time, text }) => (
 const MoverRow = ({ coin, isGainer }) => (
   <Link
     to={`/detail/${coin.id}`}
-    className="flex items-center justify-between px-[10px] py-[7px] rounded-[10px] hover:bg-white/5 transition"
+    className="flex items-center justify-between px-2.5 py-1.75 rounded-[10px] hover:bg-white/5 transition"
   >
     <div className="flex items-center gap-[8px]">
       <img
@@ -99,7 +99,7 @@ const Dashboard = () => {
   const [activeRange, setActiveRange] = React.useState('7D');
 
   if (loading && coins.length === 0)
-    return <Loader size="lg" className="mt-[5rem]" />;
+    return <Loader size="lg" className="mt-20" />;
 
   if (error && coins.length === 0)
     return (
@@ -137,7 +137,7 @@ const Dashboard = () => {
       : 'BEARISH';
 
   return (
-    <div className="flex flex-col gap-lg max-w-[1600px] mx-auto">
+    <div className="flex flex-col gap-lg max-w-400 mx-auto">
 
      
       <div className="flex items-center justify-between bg-surface-container border border-outline-variant/30 rounded-[14px] px-5 py-3">
@@ -145,9 +145,9 @@ const Dashboard = () => {
         <div className="flex items-center gap-5">
 
           <div className="flex items-center gap-2">
-            <span className="relative w-[10px] h-[10px]">
+            <span className="relative w-2.5 h-2.5">
               <span className="absolute inset-0 rounded-full animate-ping bg-secondary" />
-              <span className="relative w-[10px] h-[10px] rounded-full bg-secondary" />
+              <span className="relative w-2.5 h-2.5 rounded-full bg-secondary" />
             </span>
 
             <span className="text-label-caps">
@@ -240,7 +240,7 @@ const Dashboard = () => {
             </CardContent>
           </Card>
 
-          <Card className="bg-gradient-to-br from-primary/10 to-surface">
+          <Card className="bg-linear-to-br from-primary/10 to-surface">
             <CardHeader>
               <div className="flex items-center gap-2">
                 <Activity size={16} className="text-primary" />
@@ -266,7 +266,7 @@ const Dashboard = () => {
                 </div>
 
                 <div className="h-1 bg-outline-variant rounded-full overflow-hidden">
-                  <div className="h-full w-[88%] bg-gradient-to-r from-primary to-secondary" />
+                  <div className="h-full w-[88%] bg-linear-to-r from-primary to-secondary" />
                 </div>
               </div>
             </CardContent>
@@ -276,7 +276,7 @@ const Dashboard = () => {
         {/* CENTER */}
         <div className="flex flex-col gap-md">
 
-          <Card className="h-[520px] flex flex-col">
+          <Card className="h-130 flex flex-col">
 
             <CardHeader>
               <div>

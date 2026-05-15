@@ -30,7 +30,11 @@ const useCryptoStore = create(
     {
       name: 'findash-storage',
       partialize: (state) => ({ watchlist: state.watchlist }),
-    }
+    },
   )
 );
 export default useCryptoStore;
+
+
+
+

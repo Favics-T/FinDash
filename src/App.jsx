@@ -8,7 +8,7 @@ import Compare from './pages/Compare';
 import { useFetchCoins } from './hooks/useFetchCoins';
 
 export default function App() {
-  useFetchCoins();
+  // useFetchCoins();
 
   return (
     <Router>

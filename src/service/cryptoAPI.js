@@ -1,6 +1,8 @@
 import axios from 'axios';
 
-const BASE_URL = 'https://api.coingecko.com/api/v3';
+const BASE_URL ='https://api.coingecko.com/api/v3';
+// '/api'
+// 'https://api.coingecko.com/api/v3';
 
 const cryptoAPI = axios.create({
   baseURL: BASE_URL,

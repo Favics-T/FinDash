@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { ChevronLeft, TrendingUp, TrendingDown, Star, Activity, Info, Globe, Sparkle, ArrowRight, SparkleIcon } from 'lucide-react';
+import { ChevronLeft, TrendingUp, TrendingDown, Star, Activity, Info, Globe, ExternalLink, ArrowRight } from 'lucide-react';
 import useCryptoStore from '../store/useCryptoStore';
 import { getCoinDetail, getCoinMarketChart } from '../service/cryptoAPI';
 import { Card, CardHeader, CardContent } from '../components/ui/Card';
@@ -9,15 +9,18 @@ import Button from '../components/ui/Button';
 import PriceChart from '../components/charts/PriceChart';
 import { formatCurrency, formatCompactNumber } from '../hooks/utils';
 import Loader from '../components/ui/Loader';
+import { useWatchlist } from '../hooks/useWatchlist';
+
 
 const CoinDetail = () => {
-  const { id } = useParams();
-  const coinId = id || 'bitcoin';
+  // const { id } = useParams();
+  // const coinId = id || 'bitcoin';
   const [coin, setCoin] = useState(null);
   const [chartData, setChartData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const { watchlist, addToWatchlist, removeFromWatchlist } = useCryptoStore();
+  const {toggleWatchlist,coinId,id} = useWatchlist();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -39,13 +42,13 @@ const CoinDetail = () => {
     fetchData();
   }, [coinId]);
 
-  const toggleWatchlist = () => {
-    if (watchlist.includes(coinId)) {
-      removeFromWatchlist(coinId);
-    } else {
-      addToWatchlist(coinId);
-    }
-  };
+  // const toggleWatchlist = () => {
+  //   if (watchlist.includes(coinId)) {
+  //     removeFromWatchlist(coinId);
+  //   } else {
+  //     addToWatchlist(coinId);
+  //   }
+  // };
 
   if (loading) return <Loader className="mt-xl" size="lg" />;
   if (error) return <div className="text-error p-xl">{error}</div>;
@@ -199,8 +202,8 @@ const CoinDetail = () => {
               )}
               {coin.links.twitter_screen_name && (
                 <a href={`https://twitter.com/${coin.links.twitter_screen_name}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-md p-lg bg-surface-container-highest/30 rounded-lg hover:bg-surface-container-highest transition-colors group">
-                  <SparkleIcon size={18} className="text-primary-container group-hover:scale-110 transition-transform" />
-                  <span className="text-sm font-bold">Twitter Protocol</span>
+                  <ExternalLink size={18} className="text-primary-container group-hover:scale-110 transition-transform" />
+                  <span className="text-sm font-bold">X (Twitter)</span>
                 </a>
               )}
             </CardContent>
@@ -212,4 +215,3 @@ const CoinDetail = () => {
 };
 
 export default CoinDetail;
-

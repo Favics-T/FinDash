@@ -10,7 +10,7 @@ const Sidebar = () => {
   const links = [
     { to: '/', icon: LayoutDashboard, label: 'Dashboard' },
     { to: '/markets', icon: LineChart, label: 'Markets' },
-    { to: '/detail', icon: Database, label: 'Coin Detail' },
+    { to: '/detail/bitcoin', icon: Database, label: 'Coin Detail' },
     { to: '/watchlist', icon: Star, label: 'Watchlist' },
     { to: '/compare', icon: ArrowLeftRight, label: 'Compare' },
   ];

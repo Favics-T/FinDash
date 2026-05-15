@@ -4,7 +4,6 @@ import { Card, CardHeader, CardContent } from '../components/ui/Card';
 import Badge from '../components/ui/Badge';
 import { ArrowLeftRight, TrendingUp, TrendingDown, Info, Plus } from 'lucide-react';
 import { formatCurrency, formatCompactNumber } from '../hooks/utils';
-// import {}
 import Button from '../components/ui/Button';
 
 const Compare = () => {
