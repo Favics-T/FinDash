@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 import Sidebar from "./Sidebar/Sidebar";
-import Navbar from './Nav/Navbar';
+import { Navbar } from './Nav/NavBar.jsx'
 import { useFetchCoins } from "../../hooks/useFetchCoins";
 
 export default function AppLayout() {
