@@ -1,21 +1,17 @@
-import useCryptoStore from '../store/useCryptoStore'
+import useCryptoStore from '../store/useCryptoStore';
 
+export const useWatchlist = (coinId) => {
+  const { watchlist, addToWatchlist, removeFromWatchlist } = useCryptoStore();
 
-
-export const useWatchlist = ()=>{
-    const {watchlist,addToWatchlist,removeFromWatchlist} = useCryptoStore()
-    const {id} = useParams;
-    const coinId = id || 'bitcoin'
-
-    const toggleWatchlist = ()=>{
-        if(watchlist.includes(coinId)){
-            removeFromWatchlist(coinId)
-        }
-        else{
-            addToWatchlist(coinId)
-        }
-      const isWatchListed = watchlist.includes(coinId)
+  const toggleWatchlist = () => {
+    if (watchlist.includes(coinId)) {
+      removeFromWatchlist(coinId);
+    } else {
+      addToWatchlist(coinId);
     }
+  };
 
-    return{isWatchlisted, toggleWatchlist}
-}
+  const isWatchlisted = watchlist.includes(coinId);
+
+  return { isWatchlisted, toggleWatchlist, watchlist };
+};

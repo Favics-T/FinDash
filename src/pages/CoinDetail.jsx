@@ -9,18 +9,20 @@ import Button from '../components/ui/Button';
 import PriceChart from '../components/charts/PriceChart';
 import { formatCurrency, formatCompactNumber } from '../hooks/utils';
 import Loader from '../components/ui/Loader';
+
 import { useWatchlist } from '../hooks/useWatchlist';
 
 
 const CoinDetail = () => {
-  // const { id } = useParams();
-  // const coinId = id || 'bitcoin';
+  const { id } = useParams();
+  const coinId = id || 'bitcoin';
+  
   const [coin, setCoin] = useState(null);
   const [chartData, setChartData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const { watchlist, addToWatchlist, removeFromWatchlist } = useCryptoStore();
-  const {toggleWatchlist,coinId,id} = useWatchlist();
+  const { watchlist } = useCryptoStore();
+  const {toggleWatchlist,} = useWatchlist(coinId);
 
   useEffect(() => {
     const fetchData = async () => {
