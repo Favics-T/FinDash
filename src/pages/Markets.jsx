@@ -30,7 +30,7 @@ const TH = ({ children, onClick, right }) => (
 
 const Markets = () => {
   const { coins, loading, error, watchlist, addToWatchlist, removeFromWatchlist } = useCryptoStore();
-  const { isPro, visibleCoinCount } = useSubscription();
+  const { isPro, visibleCoinCount, canAddToWatchlist } = useSubscription();
   const navigate = useNavigate();
 
   const [searchTerm, setSearchTerm] = useState('');
@@ -69,7 +69,16 @@ const Markets = () => {
 
   const toggleWatchlist = (e, coinId) => {
     e.stopPropagation();
-    watchlist.includes(coinId) ? removeFromWatchlist(coinId) : addToWatchlist(coinId);
+    if (watchlist.includes(coinId)) {
+      removeFromWatchlist(coinId);
+      return;
+    }
+    // Enforce free-tier cap
+    if (!isPro && !canAddToWatchlist(watchlist.length)) {
+      setModalOpen(true);
+      return;
+    }
+    addToWatchlist(coinId);
   };
 
   if (loading && coins.length === 0) return <Loader size="lg" style={{ marginTop: '5rem' }} />;
