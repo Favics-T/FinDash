@@ -77,8 +77,8 @@ const Search = () => {
           size={14}
           className={`pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 transition-colors duration-200 ${
             focused
-              ? 'text-[var(--color-primary)]'
-              : 'text-[var(--color-on-surface-variant)]'
+              ? ' text-(--color-primary)'
+              : 'text-on-surface-variant'
           }`}
         />
 
@@ -96,10 +96,10 @@ const Search = () => {
             setOpen(true);
           }}
           onKeyDown={handleKeyDown}
-          className={`rounded-[10px] border px-[14px] py-[7px] pl-9 text-[13px] outline-none transition-all duration-200 ${
-            query ? 'pr-9' : 'pr-[14px]'
+          className={`rounded-[10px] border px-3.5 py-1.75 pl-9 text-[13px] outline-none transition-all duration-200 ${
+            query ? 'pr-9' : 'pr-3.5'
           } ${
-            focused ? 'w-[340px]' : 'w-[260px]'
+            focused ? 'w-85' : 'w-65  '
           } font-[var(--font-sans)] text-[var(--color-on-surface)] ${
             focused
               ? 'border-[var(--color-primary)] bg-[rgba(0,212,232,0.04)] shadow-[0_0_0_3px_rgba(0,212,232,0.1)]'

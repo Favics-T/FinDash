@@ -10,12 +10,12 @@ const TH = ({ children, onClick, right }) => (
   <th
     onClick={onClick}
     className={`
-      px-[14px] py-[10px]
+      px-3.5 py-2.5
       text-[9px] font-bold tracking-[0.14em] uppercase
-      text-[var(--color-on-surface-variant)]
+      text-on-surface-variant
       whitespace-nowrap select-none
       transition-colors duration-150
-      ${onClick ? 'cursor-pointer hover:text-[var(--color-on-surface)]' : ''}
+      ${onClick ? 'cursor-pointer hover:text-(--color-on-surface)' : ''}
       ${right ? 'text-right' : 'text-left'}
     `}
   >
@@ -78,7 +78,7 @@ const Markets = () => {
 
   if (error && coins.length === 0)
     return (
-      <div className="text-[var(--color-error)] p-8">
+      <div className="text-error p-8">
         {error}
       </div>
     );
@@ -89,10 +89,10 @@ const Markets = () => {
       {/* Header */}
       <div className="flex items-end justify-between gap-4">
         <div>
-          <h1 className="text-[26px] font-extrabold text-[var(--color-on-surface)] leading-tight mb-1.5">
+          <h1 className="text-[26px] font-extrabold text-(--color-on-surface) leading-tight mb-1.5">
             Market Overview
           </h1>
-          <p className="text-[13px] text-[var(--color-on-surface-variant)] max-w-[520px]">
+          <p className="text-[13px] text-on-surface-variant max-w-130">
             Real-time price action across {coins.length} active digital assets.
           </p>
         </div>
@@ -101,7 +101,7 @@ const Markets = () => {
         <div className="relative">
           <Search
             size={14}
-            className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--color-on-surface-variant)]"
+            className="absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant"
           />
           <input
             type="text"
@@ -109,7 +109,7 @@ const Markets = () => {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="
-              w-[240px]
+              w-60
               pl-9 pr-3 py-2
               text-[13px]
               text-[var(--color-on-surface)]
@@ -171,7 +171,7 @@ const Markets = () => {
                   `}
                   style={{ animationDelay: `${idx * 18}ms` }}
                 >
-                  <td className="px-[14px] py-3 text-xs text-[var(--color-on-surface-variant)] w-[40px]">
+                  <td className="px-3.5 py-3 text-xs text-[var(--color-on-surface-variant)] w-[40px]">
                     {coin.market_cap_rank}
                   </td>
 
