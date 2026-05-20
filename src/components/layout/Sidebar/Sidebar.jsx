@@ -9,15 +9,8 @@ import { useSubscription } from '../../../hooks/useSubscription';
 import { ProBadge } from '../../subscription/ProGate';
 import { UpgradeModal } from '../../subscription/UpgradeModal';
 import { AiInsightsCounter } from '../../subscription/SubscriptionBanners';
+import { NAV_LINKS } from '../../../data/pages';
 
-// ── Nav link definitions ──────────────────────────────────────────────────────
-const NAV_LINKS = [
-  { to: '/',         icon: LayoutDashboard, label: 'Dashboard',   pro: false },
-  { to: '/markets',  icon: LineChart,       label: 'Markets',     pro: false },
-  { to: '/detail/bitcoin', icon: Database,  label: 'Coin Detail', pro: false },
-  { to: '/watchlist',icon: Star,            label: 'Watchlist',   pro: false },
-  { to: '/compare',  icon: ArrowLeftRight,  label: 'Compare',     pro: true,  featureLabel: 'Asset Comparison' },
-];
 
 // ── Single nav item ───────────────────────────────────────────────────────────
 const SidebarLink = ({ link, isPro, onLockedClick }) => {
@@ -79,7 +72,7 @@ const SidebarLink = ({ link, isPro, onLockedClick }) => {
   );
 };
 
-// ── Sidebar ───────────────────────────────────────────────────────────────────
+// Sidebar 
 const Sidebar = () => {
   const { isPro, upgradeToPro, downgradeToFree, tier } = useSubscription();
   const [modalOpen, setModalOpen] = useState(false);
@@ -102,7 +95,7 @@ const Sidebar = () => {
           zIndex: 50, overflowY: 'auto',
         }}
       >
-        {/* ── Logo ─────────────────────────────────────── */}
+        {/*  Logo  */}
         <div style={{ padding: '0 1.25rem', marginBottom: '2rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
             <div style={{
@@ -125,7 +118,7 @@ const Sidebar = () => {
           </div>
         </div>
 
-        {/* ── Plan pill ─────────────────────────────────── */}
+        {/* Plan pill  */}
         <div style={{ padding: '0 1rem', marginBottom: '1.25rem' }}>
           <div style={{
             display: 'flex', alignItems: 'center', gap: 7,
@@ -160,14 +153,14 @@ const Sidebar = () => {
           </div>
         </div>
 
-        {/* ── Nav section label ─────────────────────────── */}
+        {/*  Nav section label  */}
         <div style={{ padding: '0 1.25rem', marginBottom: '0.5rem' }}>
           <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.18em', color: 'var(--color-on-surface-variant)', opacity: 0.6 }}>
             NAVIGATION
           </span>
         </div>
 
-        {/* ── Nav links ─────────────────────────────────── */}
+        {/* ── Nav links */}
         <nav style={{ flex: 1, padding: '0 0.75rem' }}>
           {NAV_LINKS.map((link) => (
             <SidebarLink
@@ -179,15 +172,16 @@ const Sidebar = () => {
           ))}
         </nav>
 
-        {/* ── AI Insights counter (free only) ───────────── */}
-        {!isPro && (
+        {/* ── AI Insights counter (free only) */}
+        {/* {!isPro && (
           <div style={{ padding: '0 1rem', marginTop: '1rem' }}>
             <AiInsightsCounter />
           </div>
-        )}
+        )} */}
 
-        {/* ── Upgrade / Pro banner ──────────────────────── */}
-        {!isPro && (
+        {/* ── Upgrade / Pro banner  */}
+        
+        {/* {!isPro && (
           <div style={{ padding: '0 1rem', marginTop: '1rem' }}>
             <div style={{
               background: 'linear-gradient(135deg, rgba(0,212,232,0.12) 0%, rgba(61,219,160,0.08) 100%)',
@@ -224,9 +218,9 @@ const Sidebar = () => {
               </button>
             </div>
           </div>
-        )}
+        )} */}
 
-        {/* ── Pro member section ────────────────────────── */}
+        {/*  Pro member section */}
         {isPro && (
           <div style={{ padding: '0 1rem', marginTop: '1rem' }}>
             <div style={{
@@ -251,7 +245,7 @@ const Sidebar = () => {
           </div>
         )}
 
-        {/* ── Bottom links ──────────────────────────────── */}
+        {/* Bottom links  */}
         <div style={{ padding: '0.75rem 0.75rem 0', marginTop: '0.75rem' }}>
           {[
             { icon: HelpCircle, label: 'Support' },

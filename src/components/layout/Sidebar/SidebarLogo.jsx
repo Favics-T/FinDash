@@ -13,5 +13,4 @@ function SidebarLogo() {
             </div>
   )
 }
-
 export default SidebarLogo
