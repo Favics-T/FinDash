@@ -162,7 +162,7 @@ export const ProGate = ({
             onMouseEnter={e => { e.currentTarget.style.transform = 'scale(1.04)'; }}
             onMouseLeave={e => { e.currentTarget.style.transform = 'scale(1)'; }}
           >
-            ⚡ UPGRADE TO PRO
+             UPGRADE TO PRO
           </button>
         </div>
       </div>

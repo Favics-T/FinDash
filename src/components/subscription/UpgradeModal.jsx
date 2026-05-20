@@ -121,7 +121,7 @@ const PlanCard = ({ planKey, isCurrentPlan, onUpgrade, isLoading }) => {
           onMouseEnter={e => { if (!isLoading) { e.currentTarget.style.opacity = '0.88'; e.currentTarget.style.transform = 'translateY(-1px)'; } }}
           onMouseLeave={e => { e.currentTarget.style.opacity = '1'; e.currentTarget.style.transform = 'translateY(0)'; }}
         >
-          {isLoading ? 'Upgrading…' : isPro ? '⚡ UPGRADE TO PRO' : 'DOWNGRADE'}
+          {isLoading ? 'Upgrading…' : isPro ? ' UPGRADE TO PRO' : 'DOWNGRADE'}
         </button>
       )}
 
