@@ -3,39 +3,39 @@
 
 @theme {
   /* ── Colors ── */
-  --color-background:                  #09090b;
-  --color-on-background:               #e4e4e7;
+  --color-background:                  #ffffff;
+  --color-on-background:               #111827;
 
-  --color-surface:                     #0f0f11;
-  --color-surface-dim:                 #0c0c0e;
-  --color-surface-bright:              #26262c;
+  --color-surface:                     #f8fafc;
+  --color-surface-dim:                 #f1f5f9;
+  --color-surface-bright:              #ffffff;
 
-  --color-surface-container-lowest:    #0a0a0c;
-  --color-surface-container-low:       #141418;
-  --color-surface-container:           #18181d;
-  --color-surface-container-high:      #1e1e25;
-  --color-surface-container-highest:   #27272f;
+  --color-surface-container-lowest:    #f0f4f8;
+  --color-surface-container-low:       #f4f6f9;
+  --color-surface-container:           #f8fafc;
+  --color-surface-container-high:      #ffffff;
+  --color-surface-container-highest:   #ffffff;
 
-  --color-on-surface:                  #e4e4e7;
-  --color-on-surface-variant:          #8888a0;
+  --color-on-surface:                  #111827;
+  --color-on-surface-variant:          #6b7280;
 
-  --color-outline:                     #4a4a5a;
-  --color-outline-variant:             #2a2a38;
+  --color-outline:                     #d1d5db;
+  --color-outline-variant:             #e5e7eb;
 
-  --color-primary:                     #00d4e8;
-  --color-primary-container:           #00d4e8;
-  --color-on-primary:                  #003340;
-  --color-on-primary-container:        #003340;
-  --color-primary-fixed:               #b8f4ff;
+  --color-primary:                     #1d267d;
+  --color-primary-container:           #1d267d;
+  --color-on-primary:                  #ffffff;
+  --color-on-primary-container:        #ffffff;
+  --color-primary-fixed:               #c7cdf5;
 
-  --color-secondary:                   #3ddba0;
-  --color-secondary-container:         #00a070;
-  --color-on-secondary:                #003824;
-  --color-on-secondary-container:      #00291a;
+  --color-secondary:                   #16a34a;
+  --color-secondary-container:         #bbf7d0;
+  --color-on-secondary:                #ffffff;
+  --color-on-secondary-container:      #14532d;
 
-  --color-error:                       #ff6b6b;
-  --color-error-container:             #7a1a1a;
-  --color-on-error-container:          #ffd5d5;
+  --color-error:                       #dc2626;
+  --color-error-container:             #fee2e2;
+  --color-on-error-container:          #7f1d1d;
 
   /* ── Spacing scale ── */
   --spacing-xs:    0.25rem;   /*  4px */
@@ -71,7 +71,7 @@
   }
 
   ::selection {
-    background-color: color-mix(in srgb, var(--color-primary) 25%, transparent);
+    background-color: color-mix(in srgb, var(--color-primary) 15%, transparent);
     color: var(--color-on-background);
   }
 
@@ -85,10 +85,10 @@
   ::-webkit-scrollbar { width: 4px; height: 4px; }
   ::-webkit-scrollbar-track { background: transparent; }
   ::-webkit-scrollbar-thumb {
-    background: var(--color-outline-variant);
+    background: var(--color-outline);
     border-radius: 99px;
   }
-  ::-webkit-scrollbar-thumb:hover { background: var(--color-outline); }
+  ::-webkit-scrollbar-thumb:hover { background: var(--color-on-surface-variant); }
 }
 
 /* ─────────────────────────────────────────────
@@ -207,10 +207,10 @@
   .custom-scrollbar::-webkit-scrollbar       { width: 4px; height: 4px; }
   .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
   .custom-scrollbar::-webkit-scrollbar-thumb {
-    background: var(--color-outline-variant);
+    background: var(--color-outline);
     border-radius: 99px;
   }
-  .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: var(--color-outline); }
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: var(--color-on-surface-variant); }
 
   /* Font utilities */
   .font-mono-data { font-family: var(--font-mono); }
@@ -256,8 +256,8 @@
 }
 
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 8px 2px color-mix(in srgb, var(--color-primary) 20%, transparent); }
-  50%       { box-shadow: 0 0 18px 6px color-mix(in srgb, var(--color-primary) 40%, transparent); }
+  0%, 100% { box-shadow: 0 0 8px 2px color-mix(in srgb, var(--color-primary) 15%, transparent); }
+  50%       { box-shadow: 0 0 18px 6px color-mix(in srgb, var(--color-primary) 30%, transparent); }
 }
 
 /* ── Upgrade modal slide-up entrance ── */
@@ -296,10 +296,11 @@
 
 /*    Glass card effect */
 .glass {
-  background: color-mix(in srgb, var(--color-surface-container) 80%, transparent);
+  background: color-mix(in srgb, var(--color-surface-bright) 85%, transparent);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid var(--color-outline-variant);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.06), 0 1px 2px -1px rgba(0, 0, 0, 0.04);
 }
 
 /*    Gradient text*/
