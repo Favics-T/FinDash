@@ -1,15 +1,14 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import {
-  LayoutDashboard, LineChart, Database, Star,
-  ArrowLeftRight, HelpCircle, Settings, Zap, Crown,
+   HelpCircle, Settings, Zap, Crown,
 } from 'lucide-react';
 import { cn } from '../../../hooks/utils';
 import { useSubscription } from '../../../hooks/useSubscription';
 import { ProBadge } from '../../subscription/ProGate';
 import { UpgradeModal } from '../../subscription/UpgradeModal';
 import { AiInsightsCounter } from '../../subscription/SubscriptionBanners';
-import { NAV_LINKS } from '../../../data/pages';
+import { NAV_LINKS } from '../../../data/navigation';
 
 
 // ── Single nav item ───────────────────────────────────────────────────────────

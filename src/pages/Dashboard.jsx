@@ -1,49 +1,50 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import useCryptoStore from '../store/useCryptoStore';
 import { Card, CardHeader, CardContent } from '../components/ui/Card';
-import {
-  TrendingUp, Star,  Sparkles,  PieChart,} from 'lucide-react';
+import { TrendingUp, Star, Sparkles, PieChart } from 'lucide-react';
 import PriceChart from '../components/charts/PriceChart';
-import { formatCurrency, formatCompactNumber } from '../hooks/utils';
+import { formatCurrency, formatCompactNumber } from '../utility/utils';
 import Loader from '../components/ui/Loader';
 import { useSubscription } from '../hooks/useSubscription';
 import { ProGate, ProBadge } from '../components/subscription/ProGate';
-import Stat from '../components/dashboard/Stat'
+import Stat from '../components/dashboard/Stat';
 import MoverRow from '../components/dashboard/MoverRow';
 import PortfolioWidget from '../components/dashboard/PortfolioWidget';
 import LeftDiv from '../components/dashboard/LeftDiv';
 import MarketStatus from '../components/dashboard/MarketStatus';
-
+import { TIME_RANGES } from '../data/navigation';
 
 const Dashboard = () => {
-  const { coins,  loading, error, watchlist } = useCryptoStore();
-  const { isPro, canAccess } = useSubscription();
-  
-  const allowedRanges = isPro ? ['1D', '7D', '30D', '1Y'] : ['7D'];
-  const [activeRange, setActiveRange] = useState('7D');
+  const { coins, loading, error, watchlist } = useCryptoStore();
+  const { isPro } = useSubscription();
+  const [activeRangeLabel, setActiveRangeLabel] = useState('7D');
 
   if (loading && coins.length === 0) return <Loader size="lg" className="mt-20" />;
-  if (error && coins.length === 0) return <div className="text-error text-center p-8">{error}</div>;
+  if (error   && coins.length === 0) return <div className="text-error text-center p-8">{error}</div>;
 
-  const btc = coins.find((c) => c.id === 'bitcoin') || coins[0];
-  const topGainers = [...coins].sort((a, b) => b.price_change_percentage_24h - a.price_change_percentage_24h).slice(0, 3);
+  const btc          = coins.find((c) => c.id === 'bitcoin') ?? coins[0];
+  const topGainers   = [...coins].sort((a, b) => b.price_change_percentage_24h - a.price_change_percentage_24h).slice(0, 3);
   const watchlistCoins = coins.filter((c) => watchlist.includes(c.id));
-  const isUp = btc?.price_change_percentage_24h > 0;
-  
+  const isUp         = (btc?.price_change_percentage_24h ?? 0) > 0;
+
+  const PREDICTIVE_TRENDS = [
+    { coin: 'BTC', value: '+12.4% (7D)', up: true  },
+    { coin: 'ETH', value: '+8.1% (7D)',  up: true  },
+    { coin: 'SOL', value: '-2.3% (7D)',  up: false },
+  ];
 
   return (
-    <div className="flex flex-col gap-lg max-w-400 mx-auto">
-            <MarketStatus />
+    <div className="flex flex-col gap-lg max-w-[1600px] mx-auto">
+      <MarketStatus />
 
-      {/* Main grid  */}
       <div className="grid grid-cols-[1fr_2.2fr_1fr] gap-lg">
 
-        {/* LEFT column */}
-       <LeftDiv />
+        {/* LEFT */}
+        <LeftDiv />
 
-        {/* CENTER — BTC chart */}
+        {/* CENTER — BTC Chart */}
         <div className="flex flex-col gap-md">
-          <Card className="h-130 flex flex-col">
+          <Card className="h-[520px] flex flex-col">
             <CardHeader>
               <div>
                 <p className="text-label-caps mb-1">{btc?.name} / USD</p>
@@ -57,32 +58,21 @@ const Dashboard = () => {
                 </div>
               </div>
 
-              {/* Time range selector — locked ranges for free users */}
+              {/* Time range selector */}
               <div className="flex gap-1 p-1 bg-outline-variant rounded-lg">
-                {['1D', '7D', '30D', '1Y'].map((r) => {
-                  const isLocked = !isPro && r !== '7D';
+                {TIME_RANGES.map(({ label, pro }) => {
+                  const isLocked = !isPro && pro;
+                  const isActive = activeRangeLabel === label;
                   return (
                     <button
-                      key={r}
-                      onClick={() => !isLocked && setActiveRange(r)}
-                      title={isLocked ? 'Pro feature' : r}
-                      style={{
-                        position: 'relative',
-                        opacity: isLocked ? 0.45 : 1,
-                        cursor: isLocked ? 'not-allowed' : 'pointer',
-                      }}
-                      className={`px-3 py-1 rounded-md text-label-caps transition ${
-                        activeRange === r ? 'bg-primary text-on-primary' : 'text-on-surface-variant'
-                      }`}
+                      key={label}
+                      onClick={() => !isLocked && setActiveRangeLabel(label)}
+                      title={isLocked ? 'Pro feature' : label}
+                      className={`relative px-3 py-1 rounded-md text-label-caps transition-all ${isActive ? 'bg-primary text-on-primary' : 'text-on-surface-variant'} ${isLocked ? 'opacity-45 cursor-not-allowed' : 'cursor-pointer'}`}
                     >
-                      {r}
+                      {label}
                       {isLocked && (
-                        <span style={{
-                          position: 'absolute', top: -3, right: -3,
-                          width: 8, height: 8, borderRadius: '50%',
-                          background: 'var(--color-primary)',
-                          border: '1.5px solid var(--color-background)',
-                        }} />
+                        <span className="absolute -top-[3px] -right-[3px] w-2 h-2 rounded-full bg-[var(--color-primary)] border-[1.5px] border-[var(--color-background)]" />
                       )}
                     </button>
                   );
@@ -100,16 +90,15 @@ const Dashboard = () => {
 
             <div className="grid grid-cols-3 border-t border-outline-variant p-5 gap-4">
               <Stat label="24H HIGH" value={formatCurrency(btc?.high_24h)} />
-              <Stat label="24H LOW" value={formatCurrency(btc?.low_24h)} />
-              <Stat label="VOLUME" value={formatCompactNumber(btc?.total_volume)} />
+              <Stat label="24H LOW"  value={formatCurrency(btc?.low_24h)} />
+              <Stat label="VOLUME"   value={formatCompactNumber(btc?.total_volume)} />
             </div>
           </Card>
         </div>
 
-        {/* RIGHT column */}
+        {/* RIGHT */}
         <div className="flex flex-col gap-md">
-
-          {/* Market Movers (free) */}
+          {/* Market Movers */}
           <Card>
             <CardHeader>
               <div className="flex items-center gap-2">
@@ -118,11 +107,11 @@ const Dashboard = () => {
               </div>
             </CardHeader>
             <CardContent className="p-3">
-              {topGainers.map((c) => <MoverRow key={c.id} coin={c} isGainer />)}
+              {topGainers.map((c) => <MoverRow key={c.id} coin={c} />)}
             </CardContent>
           </Card>
 
-          {/* Portfolio Allocation (Pro gate) */}
+          {/* Portfolio Allocation — Pro */}
           <ProGate featureKey="portfolioAllocation" featureLabel="Portfolio Allocation">
             <Card>
               <CardHeader>
@@ -132,13 +121,11 @@ const Dashboard = () => {
                 </div>
                 <ProBadge />
               </CardHeader>
-              <CardContent>
-                <PortfolioWidget />
-              </CardContent>
+              <CardContent><PortfolioWidget /></CardContent>
             </Card>
           </ProGate>
 
-          {/* Watchlist (free) */}
+          {/* Watchlist */}
           <Card>
             <CardHeader>
               <div className="flex items-center gap-2">
@@ -147,15 +134,13 @@ const Dashboard = () => {
               </div>
             </CardHeader>
             <CardContent>
-              {watchlistCoins.length > 0 ? (
-                watchlistCoins.map((coin) => <MoverRow key={coin.id} coin={coin} isGainer />)
-              ) : (
-                <div className="text-center py-6 text-on-surface-variant">Watchlist empty</div>
-              )}
+              {watchlistCoins.length > 0
+                ? watchlistCoins.map((coin) => <MoverRow key={coin.id} coin={coin} />)
+                : <div className="text-center py-6 text-on-surface-variant">Watchlist empty</div>}
             </CardContent>
           </Card>
 
-          {/* Predictive Trends (Pro gate) */}
+          {/* Predictive Trends — Pro */}
           <ProGate featureKey="predictiveTrends" featureLabel="Predictive Trends">
             <Card>
               <CardHeader>
@@ -166,11 +151,11 @@ const Dashboard = () => {
                 <ProBadge />
               </CardHeader>
               <CardContent>
-                <div style={{ padding: '0.5rem 0' }}>
-                  {[['BTC', '+12.4% (7D)'], ['ETH', '+8.1% (7D)'], ['SOL', '-2.3% (7D)']].map(([c, v]) => (
-                    <div key={c} style={{ display: 'flex', justifyContent: 'space-between', padding: '5px 0', fontSize: 12 }}>
-                      <span style={{ color: 'var(--color-on-surface-variant)' }}>{c}</span>
-                      <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: v.startsWith('+') ? 'var(--color-secondary)' : 'var(--color-error)' }}>{v}</span>
+                <div className="py-2">
+                  {PREDICTIVE_TRENDS.map(({ coin, value, up }) => (
+                    <div key={coin} className="flex justify-between py-[5px] text-[12px]">
+                      <span className="text-on-surface-variant">{coin}</span>
+                      <span className={`font-mono font-bold ${up ? 'text-[var(--color-secondary)]' : 'text-[var(--color-error)]'}`}>{value}</span>
                     </div>
                   ))}
                 </div>

@@ -1,40 +1,16 @@
-import React, { useState } from 'react';
-import { Lock, Crown } from 'lucide-react';
+import { useState } from 'react';
+import { Lock } from 'lucide-react';
 import { useSubscription } from '../../hooks/useSubscription';
 import { UpgradeModal } from './UpgradeModal';
+import { ProBadge } from '../ui/ProBadge';
 
-// ─────────────────────────────────────────────────────────────────────────────
-//  ProBadge  — small inline PRO tag
-// ─────────────────────────────────────────────────────────────────────────────
-export const ProBadge = ({ style = {} }) => (
-  <span
-    style={{
-      display: 'inline-flex', alignItems: 'center', gap: 3,
-      padding: '2px 6px', borderRadius: 5,
-      background: 'linear-gradient(90deg, rgba(0,212,232,0.18), rgba(61,219,160,0.12))',
-      border: '1px solid rgba(0,212,232,0.3)',
-      fontSize: 8, fontWeight: 800, letterSpacing: '0.1em',
-      color: 'var(--color-primary)',
-      flexShrink: 0,
-      ...style,
-    }}
-  >
-    <Crown size={8} />
-    PRO
-  </span>
-);
+export { ProBadge } from '../ui/ProBadge';
 
-// ─────────────────────────────────────────────────────────────────────────────
-//  ProGate  — wraps premium content with blur+lock overlay for free users
-//
-//  Props:
-//    featureKey  – key from FEATURES map (for canAccess check)  [optional]
-//    featureLabel – human label shown in upgrade modal           [optional]
-//    blur        – blur strength in px (default 6)
-//    children    – premium content to gate
-//    compact     – smaller overlay variant for sidebar items
-//    inline      – even smaller inline badge/button variant
-// ─────────────────────────────────────────────────────────────────────────────
+const useGateModal = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  return { isOpen, open: () => setIsOpen(true), close: () => setIsOpen(false) };
+};
+
 export const ProGate = ({
   featureKey,
   featureLabel,
@@ -44,130 +20,79 @@ export const ProGate = ({
   inline = false,
 }) => {
   const { isPro, canAccess } = useSubscription();
-  const [modalOpen, setModalOpen] = useState(false);
+  const { isOpen, open, close } = useGateModal();
 
-  // If Pro user or feature doesn't require Pro → render normally
   const hasAccess = featureKey ? canAccess(featureKey) : isPro;
   if (hasAccess) return <>{children}</>;
 
-  // ── Inline variant (for buttons / nav items) ──────────────────────────────
-  if (inline) {
-    return (
-      <>
-        <button
-          onClick={() => setModalOpen(true)}
-          style={{
-            display: 'inline-flex', alignItems: 'center', gap: 5,
-            padding: '5px 10px', borderRadius: 8, border: 'none', cursor: 'pointer',
-            background: 'rgba(0,212,232,0.08)', color: 'var(--color-primary)',
-            fontSize: 12, fontWeight: 700, transition: 'all 0.15s',
-          }}
-          onMouseEnter={e => { e.currentTarget.style.background = 'rgba(0,212,232,0.14)'; }}
-          onMouseLeave={e => { e.currentTarget.style.background = 'rgba(0,212,232,0.08)'; }}
-        >
-          <Lock size={11} />
-          {featureLabel || 'Pro Feature'}
-          <ProBadge />
-        </button>
-        <UpgradeModal isOpen={modalOpen} onClose={() => setModalOpen(false)} featureLabel={featureLabel} />
-      </>
-    );
-  }
-
-  // ── Compact variant (for sidebar nav items) ───────────────────────────────
-  if (compact) {
-    return (
-      <>
-        <div
-          role="button"
-          onClick={() => setModalOpen(true)}
-          style={{
-            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-            gap: 6, cursor: 'pointer', opacity: 0.6,
-            transition: 'opacity 0.15s',
-          }}
-          onMouseEnter={e => { e.currentTarget.style.opacity = '0.85'; }}
-          onMouseLeave={e => { e.currentTarget.style.opacity = '0.6'; }}
-        >
-          {children}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-            <Lock size={11} color="var(--color-on-surface-variant)" />
-            <ProBadge />
-          </div>
-        </div>
-        <UpgradeModal isOpen={modalOpen} onClose={() => setModalOpen(false)} featureLabel={featureLabel} />
-      </>
-    );
-  }
-
-  // ── Full overlay variant (for cards / widgets) ────────────────────────────
   return (
     <>
-      <div style={{ position: 'relative', isolation: 'isolate' }}>
-        {/* Blurred content preview */}
-        <div style={{
-          filter: `blur(${blur}px)`,
-          pointerEvents: 'none',
-          userSelect: 'none',
-          opacity: 0.55,
-        }}>
-          {children}
-        </div>
-
-        {/* Lock overlay */}
-        <div
-          style={{
-            position: 'absolute', inset: 0,
-            display: 'flex', flexDirection: 'column',
-            alignItems: 'center', justifyContent: 'center',
-            background: 'rgba(9,9,11,0.45)',
-            backdropFilter: 'blur(1px)',
-            borderRadius: 'inherit',
-            cursor: 'pointer',
-            zIndex: 2,
-          }}
-          onClick={() => setModalOpen(true)}
-        >
-          {/* Lock icon ring */}
-          <div style={{
-            width: 52, height: 52, borderRadius: '50%', marginBottom: 10,
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            background: 'linear-gradient(135deg, rgba(0,212,232,0.15), rgba(61,219,160,0.10))',
-            border: '1.5px solid rgba(0,212,232,0.3)',
-            boxShadow: '0 0 24px rgba(0,212,232,0.15)',
-            animation: 'pulse-glow 2.4s ease-in-out infinite',
-          }}>
-            <Lock size={22} color="var(--color-primary)" strokeWidth={2} />
-          </div>
-
-          <ProBadge style={{ marginBottom: 8, fontSize: 9, padding: '3px 8px' }} />
-
-          <p style={{
-            fontSize: 12, fontWeight: 600, color: 'var(--color-on-surface)',
-            textAlign: 'center', maxWidth: 180, lineHeight: 1.4, marginBottom: 12,
-          }}>
-            {featureLabel
-              ? `"${featureLabel}" is a Pro feature`
-              : 'Upgrade to unlock advanced insights'}
-          </p>
-
-          <button
-            style={{
-              padding: '7px 18px', borderRadius: 9, border: 'none', cursor: 'pointer',
-              background: 'linear-gradient(90deg, #00d4e8, #3ddba0)',
-              color: '#003340', fontWeight: 800, fontSize: 11, letterSpacing: '0.06em',
-              boxShadow: '0 4px 16px rgba(0,212,232,0.25)',
-              transition: 'transform 0.15s, opacity 0.15s',
-            }}
-            onMouseEnter={e => { e.currentTarget.style.transform = 'scale(1.04)'; }}
-            onMouseLeave={e => { e.currentTarget.style.transform = 'scale(1)'; }}
-          >
-             UPGRADE TO PRO
-          </button>
-        </div>
-      </div>
-
-      <UpgradeModal isOpen={modalOpen} onClose={() => setModalOpen(false)} featureLabel={featureLabel} />
+      {inline  ? <InlineVariant  featureLabel={featureLabel} onOpen={open} /> :
+       compact ? <CompactVariant onOpen={open}>{children}</CompactVariant> :
+                 <OverlayVariant featureLabel={featureLabel} blur={blur} onOpen={open}>{children}</OverlayVariant>}
+      <UpgradeModal isOpen={isOpen} onClose={close} featureLabel={featureLabel} />
     </>
   );
 };
+
+const InlineVariant = ({ featureLabel, onOpen }) => (
+  <button
+    onClick={onOpen}
+    className="inline-flex items-center gap-[5px] px-2.5 py-[5px] rounded-lg border-none cursor-pointer bg-[rgba(0,212,232,0.08)] text-[var(--color-primary)] text-[12px] font-bold transition-all duration-150 hover:bg-[rgba(0,212,232,0.14)]"
+  >
+    <Lock size={11} />
+    {featureLabel ?? 'Pro Feature'}
+    <ProBadge />
+  </button>
+);
+
+const CompactVariant = ({ children, onOpen }) => (
+  <div
+    role="button"
+    tabIndex={0}
+    aria-label="Upgrade to Pro to unlock this feature"
+    onClick={onOpen}
+    onKeyDown={(e) => e.key === 'Enter' && onOpen()}
+    className="flex items-center justify-between gap-[6px] cursor-pointer opacity-60 transition-opacity duration-150 hover:opacity-85"
+  >
+    {children}
+    <div className="flex items-center gap-1">
+      <Lock size={11} className="text-[var(--color-on-surface-variant)]" />
+      <ProBadge />
+    </div>
+  </div>
+);
+
+const OverlayVariant = ({ featureLabel, blur, children, onOpen }) => (
+  <div className="relative isolate">
+    <div
+      className="pointer-events-none select-none opacity-55"
+      style={{ filter: `blur(${blur}px)` }}
+    >
+      {children}
+    </div>
+
+    <div
+      role="button"
+      tabIndex={0}
+      aria-label={featureLabel ? `Unlock ${featureLabel} with Pro` : 'Upgrade to Pro'}
+      onClick={onOpen}
+      onKeyDown={(e) => e.key === 'Enter' && onOpen()}
+      className="absolute inset-0 z-[2] flex flex-col items-center justify-center cursor-pointer rounded-[inherit] bg-[rgba(9,9,11,0.45)] backdrop-blur-[1px]"
+    >
+      <div className="w-[52px] h-[52px] rounded-full mb-[10px] flex items-center justify-center bg-gradient-to-br from-[rgba(0,212,232,0.15)] to-[rgba(61,219,160,0.10)] border border-[rgba(0,212,232,0.3)] shadow-[0_0_24px_rgba(0,212,232,0.15)] animate-pulse-glow">
+        <Lock size={22} className="text-[var(--color-primary)]" strokeWidth={2} />
+      </div>
+
+      <ProBadge className="mb-2 text-[9px] px-2 py-[3px]" />
+
+      <p className="text-[12px] font-semibold text-[var(--color-on-surface)] text-center max-w-[180px] leading-[1.4] mb-3">
+        {featureLabel ? `"${featureLabel}" is a Pro feature` : 'Upgrade to unlock advanced insights'}
+      </p>
+
+      <button className="px-[18px] py-[7px] rounded-[9px] border-none cursor-pointer bg-gradient-to-r from-[#00d4e8] to-[#3ddba0] text-[#003340] font-extrabold text-[11px] tracking-[0.06em] shadow-[0_4px_16px_rgba(0,212,232,0.25)] transition-transform duration-150 hover:scale-[1.04]">
+        UPGRADE TO PRO
+      </button>
+    </div>
+  </div>
+);
